@@ -80,7 +80,7 @@ def process_ip_data(data):
     return output_string
 
 def get_ip_info(ip_address):
-    url = f"http://ipwhois.io/json/{ip_address}"
+    url = f"http://ipwho.is/{ip_address}"
     try:
         response = requests.get(url)
         if response.status_code == 200:

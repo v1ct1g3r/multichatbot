@@ -26,6 +26,8 @@ def main(page: Page):
         elif mode_dropdown.value == "chuck":
             categories = requests.get("https://api.chucknorris.io/jokes/categories").json()
             mensaje = f"🤣 ChuckBot: ¿Listo para reír? Aquí vienen los chistes de Chuck Norris. Si lo quieres de una categoría específica, ingresa una de las siguientes: {", ".join(category for category in categories)}"
+        elif mode_dropdown.value == "ip":
+            mensaje = f"🔟 IPBot: Dame una dirección IP y te daré toda la información sobre ella."
 
         chat_area.controls.append(Text(mensaje, color=Colors.BLUE_200))
         page.update()
@@ -33,7 +35,8 @@ def main(page: Page):
     mode_dropdown = Dropdown(
         options=[
             dropdown.Option("countries", "Datos sobre países"),
-            dropdown.Option("chuck", "Chistes de Chuck Norris")
+            dropdown.Option("chuck", "Chistes de Chuck Norris"),
+            dropdown.Option("ip", "Información de una IP")
         ],
         value="countries",
         label="Modo",
@@ -59,12 +62,16 @@ def main(page: Page):
             response = chuck_norris(user_message)
         elif mode_dropdown.value == "countries":
             response = rest_countries(user_message)
+        elif mode_dropdown.value == "ip":
+            response = get_ip_info(user_message)
         
         # Mostrar respuesta
         if mode_dropdown.value == "chuck":
             chat_area.controls.append(Text(f"ChuckBot: {response}", color=Colors.BLUE_200))
         elif mode_dropdown.value == "countries":
             chat_area.controls.append(Text(f"CountryBot: {response}", color=Colors.BLUE_200))
+        elif mode_dropdown.value == "ip":
+            chat_area.controls.append(Text(f"IPBot: {response}", color=Colors.BLUE_200))
 
         # Limpiar input y actualizar UI
         input_box.value = ""
